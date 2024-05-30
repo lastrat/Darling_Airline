@@ -13,6 +13,8 @@ def home(request):
     return render(request, 'flight/index.html')
 
 def save(request):
+    if 'username' in request.session:
+        return redirect('profile')
     if request.method == 'POST':
         username = request.POST['username']
         f_name = request.POST['f_name']
@@ -24,6 +26,8 @@ def save(request):
         return redirect('login')
     return render(request, template_name='flight/signup.html')
 def signin(request):
+    if 'username' in request.session:
+        return redirect('profile')
     if request.method == 'POST':
         username = request.POST['username']
         pwd = request.POST['password']
@@ -60,3 +64,21 @@ def flights(request):
         current = request.session['username']
         return render(request, 'flight/flights.html',{ 'current':current, 'flight': data})
     return render(request, 'flight/flights.html',{'flight': data})
+
+def contact(request):
+    if 'username' in request.session:
+        current_user = request.session['username']
+        param = {'current_user': current_user}
+        if request.method == 'POST':
+            email1 = request.POST['contemail']
+            #num1 = Contact.objects.get(email = email1)
+            cli = User.objects.get(email = email1)
+            phonecont = request.POST['contphone']
+            message1 = request.POST['message']
+            cont = Contact(mail = email1, phone = phonecont, msg = message1, client = cli)
+            cont.save()
+            return HttpResponse('form sent!')
+        return render(request, 'flight/contact.html', param)
+
+    else:
+        return redirect('login')
