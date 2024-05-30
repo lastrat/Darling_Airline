@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 
+from django.db.models.functions import Now
+
 from .models import *
 
 def index(request):
+    return render(request, 'flight/index.html')
+
+def home(request):
     return render(request, 'flight/index.html')
 
 def save(request):
@@ -47,3 +52,11 @@ def logout(request):
         return redirect('login')
     return redirect('login')
     
+def flights(request):
+    data = Flight.objects.filter(departure_time__gt = Now())
+
+    if 'username' in request.session:
+        # if the user is logged in
+        current = request.session['username']
+        return render(request, 'flight/flights.html',{ 'current':current, 'flight': data})
+    return render(request, 'flight/flights.html',{'flight': data})

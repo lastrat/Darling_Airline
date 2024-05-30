@@ -7,6 +7,9 @@ class User(models.Model):
     last_name = models.CharField(max_length= 25)
     email = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.username
+
 class Aeroplane(models.Model):
     aero_id = models.CharField(max_length=20, primary_key=True)
     aero_model = models.CharField(max_length=30)
@@ -14,15 +17,18 @@ class Aeroplane(models.Model):
     tot_economy = models.IntegerField()
     
     def __str__(self):
-        return self.flight_id
+        return self.aero_id
 
 class Flight(models.Model):
-    f_id = models.IntegerField(primary_key=True, auto_created=True)
+    f_id = models.IntegerField(primary_key=True)
     dest_airport = models.CharField(max_length=50)
+    depart_airport = models.CharField(max_length=50)
     departure_time = models.DateTimeField()
     duration = models.IntegerField()
+    available_place = models.IntegerField()
     is_active = models.BooleanField()
     aero_id = models.ForeignKey(Aeroplane, on_delete=models.CASCADE)
+
 
 class Ticket(models.Model):
     ticket_id = models.IntegerField(primary_key=True, auto_created=True)
@@ -41,6 +47,9 @@ class Stop(models.Model):
     arrival_time = models.DateTimeField()
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.stop_id
+
 class Reservation(models.Model):
     reservationId= models.IntegerField(primary_key=True ,auto_created=True)
     ticket_categories = models.CharField(max_length=25)
@@ -50,10 +59,13 @@ class Reservation(models.Model):
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
 class Price(models.Model):
-    id = models.IntegerField(primary_key=True, auto_created=True)
+    id = models.CharField(primary_key=True)
     class_type = models.CharField(max_length=30)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
+
+    def __str__(self):
+        return self.id
 
 class Payment(models.Model):
     payment_id = models.IntegerField(primary_key=True, auto_created=True)

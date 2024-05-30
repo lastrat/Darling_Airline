@@ -26,5 +26,6 @@ urlpatterns = [
     path('login/', include('flight.urls')),
     path('profile/', include('flight.urls')),
     path('signup/', include('flight.urls')),
+     path('flights/', include('flight.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 

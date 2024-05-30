@@ -1,0 +1,102 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dairling Airline</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'flight/assets/favicon.ico' %}"/>
+        <!-- Bootstrap Icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'flight/css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+              {% if current %}
+                <a class="navbar-brand" href="/profile">DG.</a>
+              {% else %}
+              <a class="navbar-brand" href="/home">DG.</a>
+              {% endif %}
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                      {% if current %}
+                        <li class="nav-item"><a class="nav-link" href="/profile">Home</a></li>
+                      {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                      {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="/flights">Flights</a></li>
+                        {% if current %}
+                        <li class="nav-item"><a class="nav-link" href="/reservation">My Reservations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+<div style="position: relative; top: 90px">
+    <table class="table">
+        <thead>
+          <tr class="table-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Town.Dep</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Depart Time</th>
+            <th scope="col">N.Plane</th>
+            <th scope="col">A.place</th>
+            <th>Buy</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if flight %}
+          
+            {% for v in flight %}
+            <tr class="table-success">
+            <th>
+              {{ v.f_id }}</th>
+            <td>{{ v.depart_airport }}</td>
+            <td>{{ v.dest_airport }}</td>
+            <td>{{ v.departure_time }}</td>
+            <td>{{ v.aero_id }}({{v.aero_id.aero_model}})</td>
+            <td>{{ v.available_place }}</td>
+            <td align="center">
+              <form action="/reservation/" method="get">
+              <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
+                <i class="bi bi-bookmark-plus"></i>
+              </form>
+              </td>
+                
+            </tr>
+            {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+</div>
+ <!-- Bootstrap core JS-->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+ <!-- SimpleLightbox plugin JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+ <!-- Core theme JS-->
+ <script src="{% static 'flight/js/scripts2.js' %}"></script>
+ <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+ <!-- * *                               SB Forms JS                               * *-->
+ <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+ <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+ <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>
