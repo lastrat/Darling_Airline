@@ -10,7 +10,7 @@ class User(models.Model):
     email = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.username
+        return f"{self.user_id}:{self.username}"
 
 class Aeroplane(models.Model):
     aero_id = models.CharField(max_length=20, primary_key=True)
@@ -19,7 +19,7 @@ class Aeroplane(models.Model):
     tot_economy = models.IntegerField()
     
     def __str__(self):
-        return self.aero_id
+        return f"{self.aero_id}: {self.aero_model}"
 
 class Flight(models.Model):
     f_id = models.AutoField(primary_key=True)
@@ -42,6 +42,8 @@ class Flight(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
+    def __str__(self):
+        return f"{str(self.f_id)}: {self.depart_airport} ==> {self.dest_airport}"
 
 
 class Contact(models.Model):
@@ -53,7 +55,7 @@ class Contact(models.Model):
     client = models.ForeignKey("User", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.mail
+        return f"{self.num} : {self.mail}"
 
 
 class Ticket(models.Model):
@@ -81,6 +83,9 @@ class Stop(models.Model):
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{int(self.stop_id)} : {self.airport_name} ==> {self.arrival_time}"
 
 
 class Reservation(models.Model):
@@ -91,6 +96,10 @@ class Reservation(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
     is_paid = models.BooleanField(default=0)
+    
+    def __str__(self):
+        return f"{int(self.reservationId)} : {self.user_id.first_name} ==> {self.flight_id.depart_airport}"
+    
 
     def clean(self)-> None:
         if self.num_tickets < 0:
@@ -114,7 +123,7 @@ class Price(models.Model):
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.id
+        return f"{self.id} : {self.class_type} ==> {self.price}"
     def clean(self)-> None:
         if self.price < 0:
             raise ValidationError("The price can not be less than zero")
@@ -131,8 +140,11 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     payment_method =models.CharField(max_length=50)
     reservation_id = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-
     
+    def __str__(self):
+        return f"{int(self.payment_id)} : {self.reservation_id.user_id.first_name}({self.reservation_id.user_id.user_id}) ==> {self.amount} ==> {self.reservation_id.flight_id.depart_airport}"
+
+
 
     def clean(self)-> None:
         if self.amount < 0:

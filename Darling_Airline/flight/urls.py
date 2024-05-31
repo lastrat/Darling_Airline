@@ -15,4 +15,5 @@ urlpatterns =[
     path('reservation/',views.reservation, name='reservation'),
     path('myreservations/', views.myreservations, name='myreservations'),
     path('payment/',views.payment, name='payment'),
+    path('ticket/',views.ticket, name='ticket'),
 ]

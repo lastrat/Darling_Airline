@@ -65,11 +65,12 @@ def stops(request):
             if f_id is not None:
                 data = Stop.objects.filter(flight_id=f_id)
                 return render(request, 'flight/stops.html',{'current':uname2,'stop': data})
-    return redirect('index')
+    return redirect('login')
 
 def reservation(request):
     if 'username' in request.session:
         uname2 = request.session['username']
+        print(f"test: {uname2}")
 
         if request.method == 'GET':
             voyid = request.GET.get('voyid')
@@ -92,7 +93,8 @@ def reservation(request):
             price = pr.price
             total = price * no
             return render(request, 'flight/payment.html',{'current':uname2, 'total':total})
-    return redirect('index')
+    else:
+        return redirect('login')
 
 def payment(request):
     if 'username' in request.session:
@@ -118,8 +120,9 @@ def payment(request):
             print(f"{f.depart_airport}")
             f.buyplace(no)
             f.save()
+            return render(request, 'flight/ticket.html',{'reserved':reservation})
         return redirect('flights')
-    return redirect('index')
+    return redirect('login')
 
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now(), available_place__gt=0)
@@ -158,7 +161,13 @@ def myreservations(request):
             return render(request,'flight/myreservations.html', {'current':uname2, 'reserved':data})
         else:
             return redirect('home')
-    return redirect('index')
+    return redirect('login')
+
+def ticket(request):
+    if 'username' in request.session:
+        pass
+    else:
+        return redirect('login')
         
 
 
