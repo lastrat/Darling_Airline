@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -30,6 +31,15 @@ class Flight(models.Model):
     is_active = models.BooleanField()
     aero_id = models.ForeignKey(Aeroplane, on_delete=models.CASCADE)
 
+    def clean(self)-> None:
+        if self.available_place < 0:
+            raise ValidationError("The Available place can not be less than zero")
+        return super().clean()
+    
+    def save(self,*args, **kwargs)-> None:
+        self.clean()
+        return super().save(*args,**kwargs)
+
 
 class Contact(models.Model):
     #creating an automatic field using a function called build_id
@@ -52,6 +62,15 @@ class Ticket(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
+    def clean(self)-> None:
+        if self.price < 0:
+            raise ValidationError("The place of a ticket can not be less than zero")
+        return super().clean()
+    
+    def save(self,*args, **kwargs)-> None:
+        self.clean()
+        return super().save(*args,**kwargs)
+
     
 class Stop(models.Model):
     stop_id = models.IntegerField(primary_key=True, auto_created=True)
@@ -69,15 +88,38 @@ class Reservation(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
+    def clean(self)-> None:
+        if self.num_tickets < 0:
+            raise ValidationError("The Number of ticket can not be less than zero")
+        if self.total_price < 0:
+            raise ValidationError("The total price can not be less than zero")
+        return super().clean()
+    
+    def save(self,*args, **kwargs)-> None:
+        self.clean()
+        return super().save(*args,**kwargs)
+
+
+
 class Price(models.Model):
     id = models.CharField(primary_key=True, max_length=50)
     class_type = models.CharField(max_length=30)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
+    price = models.IntegerField(default=200)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.id
+    def clean(self)-> None:
+        if self.price < 0:
+            raise ValidationError("The price can not be less than zero")
+        return super().clean()
+    
+    def save(self,*args, **kwargs)-> None:
+        self.clean()
+        return super().save(*args,**kwargs)
+    
 
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
@@ -85,5 +127,13 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     payment_method =models.CharField(max_length=50)
     reservation_id = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+
+    def clean(self)-> None:
+        if self.amount < 0:
+            raise ValidationError("The amount of a payment can not be less than zero")
+    
+    def save(self,*args, **kwargs)-> None:
+        self.clean()
+        return super().save(*args,**kwargs)
 
 

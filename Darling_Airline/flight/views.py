@@ -79,6 +79,14 @@ def reservation(request):
                     return render(request, 'flight/reservation.html',{'flight': v, 'current':uname2})
                 else:
                     return ('flight')
+        if request.method == 'POST':
+            uname2 = request.session['username']
+            flight_id = request.POST['id']
+            no = request.POST['number']
+            ticket = request.POST.get('ticket')
+            #return render(request, 'flight/reservation1.html',)
+            # Continuation here
+
     return redirect('index')
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now())
