@@ -86,7 +86,7 @@ def reservation(request):
             no = int(request.POST.get('number'))
             ticket = str(request.POST.get('ticket'))
             print(f"ticket = {ticket} {no}")
-            pr = Price.objects.get(class_type = ticket)
+            pr = Price.objects.get(class_type = ticket, flight_id=flight_id)
             request.session['f_id'] = flight_id
             request.session['no'] = no
             request.session['ticket'] = ticket

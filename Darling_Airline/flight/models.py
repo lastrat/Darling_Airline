@@ -120,10 +120,10 @@ class Price(models.Model):
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
     price = models.IntegerField(default=200)
-    flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True)
+    flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} : {self.class_type} ==> {self.price}"
+        return f"{self.id} : {self.class_type} ==> {self.price} || {self.flight_id.depart_airport} ==> {self.flight_id.dest_airport}"
     def clean(self)-> None:
         if self.price < 0:
             raise ValidationError("The price can not be less than zero")
