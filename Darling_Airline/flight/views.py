@@ -114,3 +114,71 @@ def contact(request):
 
     else:
         return redirect('login')
+
+def book(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            flight = request.POST.get('flight')
+            #flightdate = request.POST.get('flightDate')
+            #flightclass = request.POST.get('flightClass')
+
+            countrycode = request.POST['countryCode']
+            mobile = request.POST['mobile']
+            email = request.POST['email']
+
+            flight = Flight.objects.get(id=flight)
+
+            userscount = request.POST['usersCount']
+            users = []
+            for i in range(1, int(userscount) + 1):
+                fname = request.POST[f'user{i}first_name']
+                lname = request.POST[f'user{i}last_name']
+                #gender = request.POST[f'user{i}Gender']
+                users.append(
+                    user.objects.create(
+                        first_name=fname,
+                        last_name=lname,
+                        #gender=gender.lower()
+                    )
+                )
+
+            coupon = request.POST.get('coupon')
+
+            try:
+                ticket1 = createticket(request.user, users, userscount,
+                                       flight
+                        , flightdate, flightclass, coupon,
+                                       countrycode, email, mobile)
+                fare = calculate_fare(flightclass, userscount, flight
+)
+                return render(request, "flight/payment.html", {
+                    'fare': fare + FEE,
+                    'ticket': ticket1.id
+                })
+            except Exception as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponseRedirect(reverse("login"))
+    else:
+        return HttpResponse("Method must be post.")
+
+def ticket_data(request, ref):
+    ticket = Ticket.objects.get(ref_no=ref)
+    return JsonResponse({
+        'ref': ticket.ref_no,
+        'from': ticket.flight.origin.code,
+        'to': ticket.flight.destination.code,
+        'flight_date': ticket.flight_ddate,
+        'status': ticket.status
+    })
+
+@csrf_exempt
+def get_ticket(request):
+    ref = request.GET.get("ref")
+    ticket1 = Ticket.objects.get(ref_no=ref)
+    data = {
+        'ticket1':ticket1,
+        'current_year': datetime.now().year
+    }
+    pdf = render_to_pdf('flight/ticket.html', data)
+    return HttpResponse(pdf, content_type='application/pdf')
