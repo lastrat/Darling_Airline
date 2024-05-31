@@ -30,6 +30,9 @@ class Flight(models.Model):
     available_place = models.IntegerField()
     is_active = models.BooleanField()
     aero_id = models.ForeignKey(Aeroplane, on_delete=models.CASCADE)
+    
+    def buyplace(self, num):
+        self.available_place = self.available_place - num 
 
     def clean(self)-> None:
         if self.available_place < 0:

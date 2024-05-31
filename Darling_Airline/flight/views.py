@@ -89,7 +89,7 @@ def reservation(request):
 
     return redirect('index')
 def flights(request):
-    data = Flight.objects.filter(departure_time__gt = Now())
+    data = Flight.objects.filter(departure_time__gt = Now(), available_place__gt=0)
 
     if 'username' in request.session:
         # if the user is logged in
@@ -114,5 +114,10 @@ def contact(request):
 
     else:
         return redirect('login')
+    
+def myreservations(request):
+    if 'username' in request.session:
+        uname2 = request.session['username']
+        data = Reservation.objects.filter()
 
 

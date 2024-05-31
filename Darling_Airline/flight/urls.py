@@ -13,4 +13,5 @@ urlpatterns =[
     path('flights/', views.flights, name='flights'),
     path('contact/', views.contact, name='contact'),
     path('reservation/',views.reservation, name='reservation'),
+    path('myreservations', views.myreservations, name='myreservations'),
 ]
