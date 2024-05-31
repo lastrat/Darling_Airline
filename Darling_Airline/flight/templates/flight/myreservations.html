@@ -50,26 +50,36 @@
             </div>
         </nav>
 <div style="position: relative; top: 90px">
-    <h2 class="text-center">Flight Stop</h2>
     <table class="table">
         <thead>
           <tr class="table-secondary">
             <th scope="col">#</th>
-            <th scope="col">Airport Name</th>
-            <th scope="col">Arrival Time</th>
+            <th scope="col">Town.Dep</th>
+            <th scope="col">Destination</th>
             <th scope="col">Depart Time</th>
+            <th scope="col">No Tickets</th>
+            <th scope="col">Tickets category</th>
+            <th>View tickets</th>
           </tr>
         </thead>
         <tbody>
-          {% if stop %}
+          {% if reserved %}
           
-            {% for v in stop %}
+            {% for v in reserved %}
             <tr class="table-success">
             <th>
-              {{ v.stop_id }}</th>
-            <td>{{ v.airport_name }}</td>
-            <td>{{ v.arrival_time }}</td>
+              {{ v.reservationId }}</th>
+            <td>{{ v.depart_airport }}</td>
+            <td>{{ v.dest_airport }}</td>
             <td>{{ v.departure_time }}</td>
+            <td>{{ v.num_tickets }}</td>
+            <td>{{ v.ticket_categories }}</td>
+            <td align="center">
+              <form action="/reservation/" method="get">
+              <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
+              </form>
+              </td>
+                
             </tr>
             {% endfor %}
       {% endif %}

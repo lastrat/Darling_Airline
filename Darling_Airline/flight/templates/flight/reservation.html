@@ -29,7 +29,7 @@
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="/profile">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/flights">Flights</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/reservation">My Reservations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myreservations">My Reservations</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
                     </ul>
@@ -89,7 +89,7 @@
               </div>
               <div class="col-md-6 form-group mb-5">
                 <label for="" class="col-form-label"> Ticket category</label>
-                <select name="" name="ticket" id="" class="form-control">
+                <select name="ticket" id="ticket" class="form-control">
                   <option value="first">First class</option>
                   <option value="economy">Economy class</option>
                 </select>

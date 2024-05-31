@@ -82,12 +82,45 @@ def reservation(request):
         if request.method == 'POST':
             uname2 = request.session['username']
             flight_id = request.POST['id']
-            no = request.POST['number']
-            ticket = request.POST.get('ticket')
-            #return render(request, 'flight/reservation1.html',)
-            # Continuation here
-
+            no = int(request.POST.get('number'))
+            ticket = str(request.POST.get('ticket'))
+            print(f"ticket = {ticket} {no}")
+            pr = Price.objects.get(class_type = ticket)
+            request.session['f_id'] = flight_id
+            request.session['no'] = no
+            request.session['ticket'] = ticket
+            price = pr.price
+            total = price * no
+            return render(request, 'flight/payment.html',{'current':uname2, 'total':total})
     return redirect('index')
+
+def payment(request):
+    if 'username' in request.session:
+        uname2 = request.session['username']
+        f_id = request.session['f_id']
+        no = int(request.session['no'])
+        ticket = request.session['ticket']
+        user = User.objects.get(username=uname2)
+        user_id = user.user_id
+        
+        flight = Flight.objects.get(f_id=f_id)
+        if request.method == 'POST':
+            total = int(request.POST.get('price'))
+
+            r = Reservation(ticket_categories= ticket, num_tickets = no,total_price=total,user_id=user, flight_id=flight, is_paid=1)
+            r.save()
+            
+            reservation = Reservation.objects.get(num_tickets = no, user_id=user_id, flight_id=f_id, is_paid=1)
+            
+            pay = Payment(amount=total,payment_method = "Card CC", reservation_id=reservation)
+            pay.save()
+            f = Flight.objects.get(f_id=f_id)
+            print(f"{f.depart_airport}")
+            f.buyplace(no)
+            f.save()
+        return redirect('flights')
+    return redirect('index')
+
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now(), available_place__gt=0)
 
@@ -118,6 +151,16 @@ def contact(request):
 def myreservations(request):
     if 'username' in request.session:
         uname2 = request.session['username']
-        data = Reservation.objects.filter()
+        user = User.objects.get(username=uname2)
+        user_id = user.user_id
+        data = Reservation.objects.filter(is_paid =  1, user_id = user_id)
+        if data is not None:
+            return render(request,'flight/myreservations.html', {'current':uname2, 'reserved':data})
+        else:
+            return redirect('home')
+    return redirect('index')
+        
+
+
 
 

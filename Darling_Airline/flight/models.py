@@ -90,6 +90,7 @@ class Reservation(models.Model):
     total_price = models.FloatField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=0)
 
     def clean(self)-> None:
         if self.num_tickets < 0:
@@ -130,6 +131,8 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     payment_method =models.CharField(max_length=50)
     reservation_id = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+
+    
 
     def clean(self)-> None:
         if self.amount < 0:
