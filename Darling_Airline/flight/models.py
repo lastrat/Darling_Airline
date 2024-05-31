@@ -60,8 +60,6 @@ class Stop(models.Model):
     arrival_time = models.DateTimeField()
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.stop_id
 
 class Reservation(models.Model):
     reservationId= models.AutoField(primary_key=True)
@@ -72,10 +70,11 @@ class Reservation(models.Model):
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
 class Price(models.Model):
-    id = models.CharField(primary_key=True)
+    id = models.CharField(primary_key=True, max_length=50)
     class_type = models.CharField(max_length=30)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
+    flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.id

@@ -55,7 +55,31 @@ def logout(request):
     except:
         return redirect('login')
     return redirect('login')
-    
+
+def stops(request):
+    if 'username' in request.session:
+        uname2 = request.session['username']
+        
+        if request.method == 'GET':
+            f_id = request.GET.get('f_id')
+            if f_id is not None:
+                data = Stop.objects.filter(flight_id=f_id)
+                return render(request, 'flight/stops.html',{'current':uname2,'stop': data})
+    return redirect('index')
+
+def reservation(request):
+    if 'username' in request.session:
+        uname2 = request.session['username']
+
+        if request.method == 'GET':
+            voyid = request.GET.get('voyid')
+            if voyid is not None:
+                v = Flight.objects.filter(f_id = voyid)
+                if v is not None:
+                    return render(request, 'flight/reservation.html',{'flight': v, 'current':uname2})
+                else:
+                    return ('flight')
+    return redirect('index')
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now())
 

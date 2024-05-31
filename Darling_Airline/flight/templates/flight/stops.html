@@ -54,37 +54,21 @@
         <thead>
           <tr class="table-secondary">
             <th scope="col">#</th>
-            <th scope="col">Town.Dep</th>
-            <th scope="col">Destination</th>
+            <th scope="col">Airport Name</th>
+            <th scope="col">Arrival Time</th>
             <th scope="col">Depart Time</th>
-            <th scope="col">Stops</th>
-            <th scope="col">N.Plane</th>
-            <th scope="col">A.place</th>
-            <th>Buy</th>
           </tr>
         </thead>
         <tbody>
-          {% if flight %}
+          {% if stop %}
           
-            {% for v in flight %}
+            {% for v in stop %}
             <tr class="table-success">
             <th>
-              {{ v.f_id }}</th>
-            <td>{{ v.depart_airport }}</td>
-            <td>{{ v.dest_airport }}</td>
+              {{ v.stop_id }}</th>
+            <td>{{ v.airport_name }}</td>
+            <td>{{ v.arrival_time }}</td>
             <td>{{ v.departure_time }}</td>
-            <form action="/stops/" method="get">
-            <td><button type="submit" class="btn btn-primary" name="f_id" value="{{ v.f_id }}">view</button></td>
-            </form>
-            <td>{{ v.aero_id }}({{v.aero_id.aero_model}})</td>
-            <td>{{ v.available_place }}</td>
-            <td align="center">
-              <form action="/reservation/" method="get">
-              <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
-                <i class="bi bi-bookmark-plus"></i>
-              </form>
-              </td>
-                
             </tr>
             {% endfor %}
       {% endif %}
