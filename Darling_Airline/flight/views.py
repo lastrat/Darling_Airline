@@ -6,6 +6,7 @@ from django.db.models.functions import Now
 
 from .models import *
 
+
 def index(request):
     return render(request, 'flight/index.html')
 
@@ -25,6 +26,7 @@ def save(request):
         user.save()
         return redirect('login')
     return render(request, template_name='flight/signup.html')
+
 def signin(request):
     if 'username' in request.session:
         return redirect('profile')
