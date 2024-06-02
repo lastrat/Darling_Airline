@@ -607,8 +607,8 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$720000$Qh5XbvFkJpwhDTQzloMUV6$iGnA5K/QtmyP5itpixu0lYN2uOIeLDVj/bI+MfdvmdQ=	\N	t	lastrat				t	t	2024-05-31 22:50:34.957273+02
-2	pbkdf2_sha256$720000$tjqq7OhZa4aAXqcN3J7Cxb$YUyaFAWGNV7+iLBUVLOWnwmbcrssgfMByaKaqv9Ag8c=	2024-05-31 22:52:01.843197+02	t	prince				t	t	2024-05-31 22:51:23.704651+02
+2	pbkdf2_sha256$720000$tjqq7OhZa4aAXqcN3J7Cxb$YUyaFAWGNV7+iLBUVLOWnwmbcrssgfMByaKaqv9Ag8c=	2024-06-02 21:31:52.819492+02	t	prince				t	t	2024-05-31 22:51:23.704651+02
+1	pbkdf2_sha256$720000$Qh5XbvFkJpwhDTQzloMUV6$iGnA5K/QtmyP5itpixu0lYN2uOIeLDVj/bI+MfdvmdQ=	2024-06-02 21:32:15.224636+02	t	lastrat				t	t	2024-05-31 22:50:34.957273+02
 \.
 
 
@@ -647,6 +647,29 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 12	2024-05-31 23:12:08.640295+02	4	4 : economy ==> 1500	1	[{"added": {}}]	10	2
 13	2024-05-31 23:12:30.61039+02	5	5 : first ==> 2500	1	[{"added": {}}]	10	2
 14	2024-05-31 23:12:49.412832+02	6	6 : economy ==> 2000	1	[{"added": {}}]	10	2
+15	2024-06-02 21:32:35.938423+02	1	1 : simo ==> Yaounde-Cameroun	3		11	1
+16	2024-06-02 21:39:50.852284+02	3	3 : (first: 2500) => (simo rochinel, -1, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:35:42.601067+00:00	3		14	1
+17	2024-06-02 21:39:50.862255+02	2	2 : (first: 2500) => (simo rochinel, 0, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:35:42.598078+00:00	3		14	1
+18	2024-06-02 21:39:50.866244+02	1	1 : (first: 2500) => (simo rochinel, 1, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:35:42.590096+00:00	3		14	1
+19	2024-06-02 21:40:00.768783+02	2	2 : simo ==> Paris - France	3		11	1
+20	2024-06-02 21:43:02.501919+02	6	6 : (first: 1000) => (simo rochinel, -1, Yaounde-Cameroun to Paris-France) => 2024-06-02 19:40:40.411397+00:00	3		14	1
+21	2024-06-02 21:43:02.515825+02	5	5 : (first: 1000) => (simo rochinel, 0, Yaounde-Cameroun to Paris-France) => 2024-06-02 19:40:40.409403+00:00	3		14	1
+22	2024-06-02 21:43:02.518858+02	4	4 : (first: 1000) => (simo rochinel, 1, Yaounde-Cameroun to Paris-France) => 2024-06-02 19:40:40.405413+00:00	3		14	1
+23	2024-06-02 21:43:16.553481+02	3	3 : simo(1) ==> 3000.0 ==> Yaounde-Cameroun	3		12	1
+24	2024-06-02 21:43:24.07111+02	3	3 : simo ==> Yaounde-Cameroun	3		11	1
+25	2024-06-02 21:43:44.62969+02	3	3: Paris - France ==> Rio de Janero - Brasil	2	[{"changed": {"fields": ["Available place"]}}]	9	1
+26	2024-06-02 21:43:50.561104+02	2	2: Yaounde-Cameroun ==> Tokyo - Japan	2	[{"changed": {"fields": ["Available place"]}}]	9	1
+27	2024-06-02 21:45:33.4178+02	9	9 : (first: 2000) => (simo rochinel, 2, Yaounde-Cameroun to Tokyo - Japan) => 2024-06-02 19:44:05.191956+00:00	3		14	1
+28	2024-06-02 21:45:33.426775+02	8	8 : (first: 2000) => (simo rochinel, 3, Yaounde-Cameroun to Tokyo - Japan) => 2024-06-02 19:44:05.189961+00:00	3		14	1
+29	2024-06-02 21:45:33.429768+02	7	7 : (first: 2000) => (simo rochinel, 4, Yaounde-Cameroun to Tokyo - Japan) => 2024-06-02 19:44:05.184974+00:00	3		14	1
+30	2024-06-02 21:45:46.797029+02	4	4 : simo ==> Yaounde-Cameroun	3		11	1
+31	2024-06-02 21:47:22.842832+02	3	3: Paris - France ==> Rio de Janero - Brasil	2	[{"changed": {"fields": ["Available place"]}}]	9	1
+32	2024-06-02 21:47:28.779733+02	2	2: Yaounde-Cameroun ==> Tokyo - Japan	2	[{"changed": {"fields": ["Available place"]}}]	9	1
+33	2024-06-02 21:47:35.373338+02	1	1: Yaounde-Cameroun ==> Paris-France	2	[{"changed": {"fields": ["Available place"]}}]	9	1
+34	2024-06-02 21:53:47.427151+02	5	5 : simo ==> Paris - France	3		11	1
+35	2024-06-02 21:54:01.419741+02	12	12 : (first: 2500) => (simo rochinel, 5, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:46:14.158890+00:00	3		14	1
+36	2024-06-02 21:54:01.425724+02	11	11 : (first: 2500) => (simo rochinel, 4, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:46:14.156896+00:00	3		14	1
+37	2024-06-02 21:54:01.428721+02	10	10 : (first: 2500) => (simo rochinel, 3, Paris - France to Rio de Janero - Brasil) => 2024-06-02 19:46:14.151905+00:00	3		14	1
 \.
 
 
@@ -706,6 +729,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 n4339k9j2v0tc0eyz3rah9zwjysqqflu	.eJxVjssOgyAURP-FtTF4UVCX3fcbzAUuSh-QAK6a_nsxMWm7nTNzMi-24F62Zc-UFm_ZzIA1v5lGc6dwAHvDsMbWxFCS1-1RaU-a22u09Lic3T_BhnmrawIJtu84TKCcsJ0xTirTE5duGKdRKzWMXc8HCVoIoaUxnCYcQLpeIihepYcu4JOq7YG5JCy0eqrAfZ-HyGZoWPH1SamZ8ykX9v4A5-BJzQ:1sD9ao:QqiRi20eQg7cZOKvKrR0HMpa5PQKRgarQ9ZPvyYPHc0	2024-06-14 23:15:18.164816+02
+zvwg517y12pf4ddvpepajk6kwg4g8jjm	.eJxVjssOgyAQRf-FtTGOIILL7vsNZhBQ-oAEcNX03zumLtrdzJw7J_fFZtzrNu_F5TlYNjFgze_N4HJ38QD2hnFN7ZJizcG0R6Q9aWmvybrH5cz-CTYsG31rMRqJCOCFFkJAx6V0SvZCqR4NjB46PVhKGClAcUNA2k6DGGlBM5D00EV8OrI9sNSM1a3BEfDf5pzGmNjEG1YDNal08yGXyt4fuWtJaQ:1sDrHW:VYTtXN_zy4px3x8sOTXUOvrlgww8Zb_rCjQPEIM2zQo	2024-06-16 21:54:18.886047+02
 \.
 
 
@@ -733,9 +757,9 @@ COPY public.flight_contact (num, mail, phone, msg, client_id) FROM stdin;
 --
 
 COPY public.flight_flight (f_id, dest_airport, depart_airport, departure_time, duration, available_place, is_active, aero_id_id) FROM stdin;
+2	Tokyo - Japan	Yaounde-Cameroun	2024-06-03 09:42:00+02	14	100	t	Plane02
 1	Paris-France	Yaounde-Cameroun	2024-06-19 09:42:19+02	12	100	t	Plane01
-3	Rio de Janero - Brasil	Paris - France	2024-06-07 21:42:19+02	13	100	t	Plane03
-2	Tokyo - Japan	Yaounde-Cameroun	2024-06-03 09:42:00+02	14	98	t	Plane02
+3	Rio de Janero - Brasil	Paris - France	2024-06-07 21:42:19+02	13	97	t	Plane03
 \.
 
 
@@ -744,7 +768,7 @@ COPY public.flight_flight (f_id, dest_airport, depart_airport, departure_time, d
 --
 
 COPY public.flight_payment (payment_id, amount, date, payment_method, reservation_id_id) FROM stdin;
-1	4000	2024-05-31 23:15:50.774072+02	Card CC	1
+6	7500	2024-06-02 21:54:22.629043+02	Card CC	6
 \.
 
 
@@ -767,7 +791,7 @@ price 2	economy	2024-05-31 17:39:02+02	2024-06-22 17:39:13+02	500	1
 --
 
 COPY public.flight_reservation ("reservationId", ticket_categories, num_tickets, total_price, is_paid, flight_id_id, user_id_id) FROM stdin;
-1	first	2	4000	t	2	1
+6	first	3	7500	t	3	1
 \.
 
 
@@ -786,6 +810,9 @@ COPY public.flight_stop (stop_id, airport_name, departure_time, arrival_time, fl
 --
 
 COPY public.flight_ticket (ticket_id, ticket_class, price, purchase_date, seat_number, flight_id_id, user_id_id) FROM stdin;
+13	first	2500	2024-06-02 21:54:22.641059+02	3	3	1
+14	first	2500	2024-06-02 21:54:22.645996+02	2	3	1
+15	first	2500	2024-06-02 21:54:22.64905+02	1	3	1
 \.
 
 
@@ -844,7 +871,7 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 14, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 37, true);
 
 
 --
@@ -879,21 +906,21 @@ SELECT pg_catalog.setval('public.flight_flight_f_id_seq', 3, true);
 -- Name: flight_payment_payment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.flight_payment_payment_id_seq', 1, true);
+SELECT pg_catalog.setval('public.flight_payment_payment_id_seq', 6, true);
 
 
 --
 -- Name: flight_reservation_reservationId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."flight_reservation_reservationId_seq"', 1, true);
+SELECT pg_catalog.setval('public."flight_reservation_reservationId_seq"', 6, true);
 
 
 --
 -- Name: flight_ticket_ticket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.flight_ticket_ticket_id_seq', 1, false);
+SELECT pg_catalog.setval('public.flight_ticket_ticket_id_seq', 15, true);
 
 
 --
