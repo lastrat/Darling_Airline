@@ -66,6 +66,9 @@ class Ticket(models.Model):
     seat_number = models.IntegerField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.ticket_id} : ({self.ticket_class}: {self.price}) => ({self.user_id.first_name} {self.user_id.last_name}, {self.seat_number}, {self.flight_id.depart_airport} to {self.flight_id.dest_airport}) => {self.purchase_date}"
 
     def clean(self)-> None:
         if self.price < 0:

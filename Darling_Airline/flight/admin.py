@@ -18,3 +18,5 @@ admin.site.register(Reservation)
 admin.site.register(Payment)
 
 admin.site.register(Contact)
+
+admin.site.register(Ticket)

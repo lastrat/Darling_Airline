@@ -75,9 +75,12 @@
             <td>{{ v.num_tickets }}</td>
             <td>{{ v.ticket_categories }}</td>
             <td align="center">
-              <form action="/reservation/" method="get">
-              <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
-              </form>
+              <form action="/myreservations/" method="post">
+                {% csrf_token %}
+                <input type="text" value="{{v.ticket_categories}}" name="category" hidden>
+                <input type="text" value="{{v.user_id.user_id}}" name="user_id" hidden>
+                <td><button type="submit" class="btn btn-primary btn-sm" name="f_id" value="{{ v.flight_id.f_id }}">View</button></td>
+                </form>
               </td>
                 
             </tr>

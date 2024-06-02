@@ -110,19 +110,38 @@ def payment(request):
         flight = Flight.objects.get(f_id=f_id)
         if request.method == 'POST':
             total = int(request.POST.get('price'))
-
+            
+            # creating an instance of a reservation
             r = Reservation(ticket_categories= ticket, num_tickets = no,total_price=total,user_id=user, flight_id=flight, is_paid=1)
             r.save()
             
+            # getting an instance of reservation
             reservation = Reservation.objects.get(num_tickets = no, user_id=user_id, flight_id=f_id, is_paid=1)
             
+            # creating an instance of a payment
             pay = Payment(amount=total,payment_method = "Card CC", reservation_id=reservation)
             pay.save()
             f = Flight.objects.get(f_id=f_id)
             print(f"{f.depart_airport}")
+            
+            # reducing the available place
             f.buyplace(no)
             f.save()
-            return render(request, 'flight/ticket.html',{'reserved':reservation})
+            
+            # creating the various tickets            
+            for i in range(no):
+                ticket1 = Ticket(
+                    ticket_class = ticket,
+                    price = int(total/no),
+                    seat_number = int(100- (flight.available_place + i) +1),
+                    user_id = user,
+                    flight_id = flight
+                )
+                ticket1.save()
+            # Getting the various instance of a ticket bought by a particular user
+            tickets = Ticket.objects.filter(user_id=user.user_id, flight_id = flight.f_id, ticket_class = ticket)
+
+            return render(request, 'flight/ticket.html',{'tickets': tickets})
         return redirect('flights')
     return redirect('login')
 
@@ -155,6 +174,15 @@ def contact(request):
     
 def myreservations(request):
     if 'username' in request.session:
+        if request.method == 'POST':
+            user_id = request.POST['user_id']
+            f_id = request.POST['f_id']
+            category = request.POST['category']
+            # Getting the various instance of a ticket bought by a particular user
+            tickets = Ticket.objects.filter(user_id=user_id, flight_id = f_id, ticket_class = category)
+
+            return render(request, 'flight/ticket.html',{'tickets': tickets})
+            
         uname2 = request.session['username']
         user = User.objects.get(username=uname2)
         user_id = user.user_id
