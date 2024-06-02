@@ -7,7 +7,7 @@ The Darling Airline Flight Management System is a web application designed to st
 * Operating System: Windows 10 or later, macOS 10.12 or later, Linux
 * Processor: Intel i7 or equivalent
 * Memory: 8 GB RAM
-* Storage: 500 MB of free space
+* Storage: 500 GB of free space
 * Database: PostgreSQL
 * Language: Python (Django)
 * Browser: Latest version of Chrome, Firefox, Safari, or Edge
