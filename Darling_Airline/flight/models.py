@@ -10,11 +10,10 @@ class User(models.Model):
     email = models.EmailField(max_length=50)
 
     def __str__(self):
-<<<<<<< HEAD
         return f"{self.user_id} : {self.username}"
-=======
+
         return f"{self.user_id}:{self.username}"
->>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
+
 
 class Aeroplane(models.Model):
     aero_id = models.CharField(max_length=20, primary_key=True)
@@ -46,14 +45,13 @@ class Flight(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
-<<<<<<< HEAD
+
     
     def __str__(self):
         return f"{self.f_id} : {self.depart_airport} To {self.dest_airport}"
-=======
     def __str__(self):
         return f"{str(self.f_id)}: {self.depart_airport} ==> {self.dest_airport}"
->>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
+
 
 
 class Contact(models.Model):
