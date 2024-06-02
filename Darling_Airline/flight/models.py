@@ -7,10 +7,10 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length= 25)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
 
     def __str__(self):
-        return self.username
+        return f"{self.user_id} : {self.username}"
 
 class Aeroplane(models.Model):
     aero_id = models.CharField(max_length=20, primary_key=True)
@@ -42,10 +42,12 @@ class Flight(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
+    
+    def __str__(self):
+        return f"{self.f_id} : {self.depart_airport} To {self.dest_airport}"
 
 
 class Contact(models.Model):
-    #creating an automatic field using a function called build_id
     num = models.AutoField(primary_key=True, auto_created=True)
     mail = models.EmailField()
     phone = models.CharField(max_length=15)
@@ -73,6 +75,9 @@ class Ticket(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
+    
+    def __str__(self):
+        return f"{self.ticket_class} : {self.price} XAF"
 
     
 class Stop(models.Model):
@@ -105,7 +110,7 @@ class Reservation(models.Model):
 
 
 class Price(models.Model):
-    id = models.CharField(primary_key=True, max_length=50)
+    id = models.AutoField(primary_key=True)
     class_type = models.CharField(max_length=30)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
@@ -113,7 +118,7 @@ class Price(models.Model):
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.id
+        return f"{self.id} : {self.class_type} ==> {self.price} || {self.flight_id.depart_airport} ==> {self.flight_id.dest_airport}"
     def clean(self)-> None:
         if self.price < 0:
             raise ValidationError("The price can not be less than zero")
@@ -122,6 +127,7 @@ class Price(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
+
     
 
 class Payment(models.Model):

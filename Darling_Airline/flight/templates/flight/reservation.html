@@ -29,7 +29,7 @@
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="/profile">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/flights">Flights</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/reservation">My Reservations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myreservations">My Reservations</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
                     </ul>
@@ -84,12 +84,12 @@
               <div class="row">
                 <div class="col-md-6 form-group mb-5">
                   <label for="" class="col-form-label">No of Ticket</label>
-                  <input type="number" class="form-control" name="number" id="phone"  placeholder="Number of tickets">
+                  <input type="number" class="form-control" name="number" id="phone"  placeholder="Number of tickets" Required>
                 </div>
               </div>
               <div class="col-md-6 form-group mb-5">
                 <label for="" class="col-form-label"> Ticket category</label>
-                <select name="" name="ticket" id="" class="form-control">
+                <select name="ticket" id="ticket" class="form-control">
                   <option value="first">First class</option>
                   <option value="economy">Economy class</option>
                 </select>
@@ -97,7 +97,7 @@
 
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <input type="submit" value="Checkout" class="btn btn-primary rounded-0 py-2 px-4">
+                  <input type="submit" value="Book Flight" class="btn btn-primary rounded-0 py-2 px-4">
                   <span class="submitting"></span>
                 </div>
               </div>

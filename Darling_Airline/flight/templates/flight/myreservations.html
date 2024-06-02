@@ -38,7 +38,7 @@
                       {% endif %}
                         <li class="nav-item"><a class="nav-link" href="/flights">Flights</a></li>
                         {% if current %}
-                        <li class="nav-item"><a class="nav-link" href="/reservation">My Reservations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myreservations">My Reservations</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
                         {% else %}
@@ -53,39 +53,32 @@
     <table class="table">
         <thead>
           <tr class="table-secondary">
-            <th scope="col">#id</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
+            <th scope="col">#</th>
+            <th scope="col">Town.Dep</th>
+            <th scope="col">Destination</th>
             <th scope="col">Depart Time</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Stops</th>
-            <th scope="col">Aircraft</th>
-            <th scope="col">A.place</th>
-            <th>Buy</th>
+            <th scope="col">No Tickets</th>
+            <th scope="col">Tickets category</th>
+            <th>View tickets</th>
           </tr>
         </thead>
         <tbody>
-          {% if flight %}
+          {% if reserved %}
           
-            {% for v in flight %}
+            {% for v in reserved %}
             <tr class="table-success">
             <th>
-              {{ v.f_id }}</th>
-            <td>{{ v.depart_airport }}</td>
-            <td>{{ v.dest_airport }}</td>
-            <td>{{ v.departure_time }}</td>
-            <td>{{ v.duration }} mins</td>
-            <form action="/stops/" method="get">
-            <td><button type="submit" class="btn btn-primary" name="f_id" value="{{ v.f_id }}">view</button></td>
-            </form>
-            <td>{{ v.aero_id }}({{v.aero_id.aero_model}})</td>
-            <td>{{ v.available_place }}</td>
+              {{ v.reservationId }}</th>
+            <td>{{ v.flight_id.depart_airport }}</td>
+            <td>{{ v.flight_id.dest_airport }}</td>
+            <td>{{ v.flight_id.departure_time }}</td>
+            <td>{{ v.num_tickets }}</td>
+            <td>{{ v.ticket_categories }}</td>
             <td align="center">
               <form action="/reservation/" method="get">
               <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
-                <i class="bi bi-bookmark-plus"></i>
               </form>
-            </td>
+              </td>
                 
             </tr>
             {% endfor %}
