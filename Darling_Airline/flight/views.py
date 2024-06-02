@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
+from django.contrib import messages
 
 from django.db.models.functions import Now
 
 from .models import *
-
 
 def index(request):
     return render(request, 'flight/index.html')
@@ -26,22 +27,25 @@ def save(request):
         user.save()
         return redirect('login')
     return render(request, template_name='flight/signup.html')
-
 def signin(request):
-    if 'username' in request.session:
+    if 'user_id' in request.session:
         return redirect('profile')
+    
     if request.method == 'POST':
         username = request.POST['username']
         pwd = request.POST['password']
-        check_user = User.objects.filter(username = username, password = pwd)
-        if check_user:
+        try:
+            check_user = User.objects.get(username=username, password=pwd)
             # start a session for the current user
-            request.session['username'] = username
+            request.session['user_id'] = check_user.user_id
+            request.session['email'] = check_user.email
+            request.session['username'] = check_user.username
             return redirect('profile')
-        else:
+        except User.DoesNotExist:
             msg = "Wrong Username or password!"
             return render(request, 'flight/signin.html', {'msg': msg})
-    return render(request, template_name='flight/signin.html')
+    
+    return render(request, 'flight/signin.html')
 
 def profile(request):
     if 'username' in request.session:
@@ -67,7 +71,8 @@ def stops(request):
             if f_id is not None:
                 data = Stop.objects.filter(flight_id=f_id)
                 return render(request, 'flight/stops.html',{'current':uname2,'stop': data})
-    return redirect('login')
+    return redirect('index')
+
 
 def reservation(request):
     if 'username' in request.session:
@@ -97,7 +102,7 @@ def reservation(request):
             return render(request, 'flight/payment.html',{'current':uname2, 'total':total})
     else:
         return redirect('login')
-
+    
 def payment(request):
     if 'username' in request.session:
         uname2 = request.session['username']
@@ -145,6 +150,7 @@ def payment(request):
         return redirect('flights')
     return redirect('login')
 
+
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now(), available_place__gt=0)
 
@@ -155,20 +161,24 @@ def flights(request):
     return render(request, 'flight/flights.html',{'flight': data})
 
 def contact(request):
-    if 'username' in request.session:
-        current_user = request.session['username']
-        param = {'current_user': current_user}
+    if 'user_id' in request.session:
+        user_id = request.session['user_id']
+        try:
+            current_user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            # Handle case where user does not exist
+            return redirect('login')
+
         if request.method == 'POST':
             email1 = request.POST['contemail']
-            #num1 = Contact.objects.get(email = email1)
-            cli = User.objects.get(email = email1)
             phonecont = request.POST['contphone']
             message1 = request.POST['message']
-            cont = Contact(mail = email1, phone = phonecont, msg = message1, client = cli)
+            cont = Contact(mail=email1, phone=phonecont, msg=message1, client=current_user)
             cont.save()
-            return HttpResponse('form sent!')
-        return render(request, 'flight/contact.html', param)
-
+            messages.success(request, 'Message sent successfully!')
+            return redirect('contact')
+        
+        return render(request, 'flight/contact.html', {'current_user': current_user})
     else:
         return redirect('login')
     
@@ -193,13 +203,11 @@ def myreservations(request):
             return redirect('home')
     return redirect('login')
 
+
 def ticket(request):
     if 'username' in request.session:
         pass
     else:
         return redirect('login')
-        
-
-
 
 

@@ -53,12 +53,13 @@
     <table class="table">
         <thead>
           <tr class="table-secondary">
-            <th scope="col">#</th>
-            <th scope="col">Town.Dep</th>
-            <th scope="col">Destination</th>
+            <th scope="col">#id</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
             <th scope="col">Depart Time</th>
+            <th scope="col">Duration</th>
             <th scope="col">Stops</th>
-            <th scope="col">N.Plane</th>
+            <th scope="col">Aircraft</th>
             <th scope="col">A.place</th>
             <th>Buy</th>
           </tr>
@@ -73,6 +74,7 @@
             <td>{{ v.depart_airport }}</td>
             <td>{{ v.dest_airport }}</td>
             <td>{{ v.departure_time }}</td>
+            <td>{{ v.duration }} mins</td>
             <form action="/stops/" method="get">
             <td><button type="submit" class="btn btn-primary" name="f_id" value="{{ v.f_id }}">view</button></td>
             </form>
@@ -83,7 +85,7 @@
               <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
                 <i class="bi bi-bookmark-plus"></i>
               </form>
-              </td>
+            </td>
                 
             </tr>
             {% endfor %}
