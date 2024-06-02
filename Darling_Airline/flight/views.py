@@ -8,6 +8,7 @@ from django.db.models.functions import Now
 
 from .models import *
 
+
 def index(request):
     return render(request, 'flight/index.html')
 
@@ -27,6 +28,7 @@ def save(request):
         user.save()
         return redirect('login')
     return render(request, template_name='flight/signup.html')
+
 def signin(request):
     if 'user_id' in request.session:
         return redirect('profile')
@@ -71,7 +73,7 @@ def stops(request):
             if f_id is not None:
                 data = Stop.objects.filter(flight_id=f_id)
                 return render(request, 'flight/stops.html',{'current':uname2,'stop': data})
-    return redirect('index')
+    return redirect('login')
 
 
 def reservation(request):
@@ -102,7 +104,11 @@ def reservation(request):
             return render(request, 'flight/payment.html',{'current':uname2, 'total':total})
     else:
         return redirect('login')
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
 def payment(request):
     if 'username' in request.session:
         uname2 = request.session['username']
@@ -130,7 +136,10 @@ def payment(request):
             return render(request, 'flight/ticket.html',{'reserved':reservation})
         return redirect('flights')
     return redirect('login')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
 
 def flights(request):
     data = Flight.objects.filter(departure_time__gt = Now(), available_place__gt=0)
@@ -175,11 +184,20 @@ def myreservations(request):
             return redirect('home')
     return redirect('login')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
 def ticket(request):
     if 'username' in request.session:
         pass
     else:
         return redirect('login')
+<<<<<<< HEAD
+=======
+        
+
+
+>>>>>>> 4a678813ea9d5bea2e52d183e23d409f9c21d251
 
 
