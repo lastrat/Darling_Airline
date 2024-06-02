@@ -1,7 +1,9 @@
 # Darling Airlines
-Welcome to the Darling Airline Flight Management System! This system is designed to streamline and manage all aspects of flight operations for Darling Airline, providing an efficient and user-friendly interface for both airline staff and passengers.
+Welcome to Darling Airline Flight Management System! This system is designed to streamline and manage all aspects of flight operations for Darling Airline, providing an efficient and user-friendly interface for both airline staff and passengers.
+
 ## Overview
 The Darling Airline Flight Management System is a web application designed to streamline the management of flight operations and reservations. It provides functionalities for both passengers and airline staff, ensuring efficient handling of flight schedules, bookings, and customer information.
+
 
 ## System Requirements
 * Operating System: Windows 10 or later, macOS 10.12 or later, Linux
@@ -24,7 +26,7 @@ The Darling Airline Flight Management System is a web application designed to st
 
 ### Prerequisites
 
-Ensure you have the following software installed:
+Ensure you have the following softwares installed:
 
 - Python 3.x
 - Django
@@ -79,5 +81,5 @@ We welcome contributions to Darling Airline Flight Management System. To contrib
 5. Create a pull request describing your changes.
 
 ## Contact
-For questions or support, please contact us from our various github account.
+For questions or support, please contact us from our various github accounts.
 Thank you for using Darling Airline Flight Management System!
