@@ -79,5 +79,5 @@ We welcome contributions to Darling Airline Flight Management System. To contrib
 5. Create a pull request describing your changes.
 
 ## Contact
-For questions or support, please contact us from our various github account
+For questions or support, please contact us from our various github account.
 Thank you for using Darling Airline Flight Management System!
