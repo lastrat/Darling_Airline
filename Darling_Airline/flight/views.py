@@ -133,7 +133,7 @@ def payment(request):
                 ticket1 = Ticket(
                     ticket_class = ticket,
                     price = int(total/no),
-                    seat_number = int(100- (flight.available_place + i) +1),
+                    seat_number = int((100- (f.available_place + i))),
                     user_id = user,
                     flight_id = flight
                 )
