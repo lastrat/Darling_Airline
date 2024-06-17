@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
     username = models.CharField(max_length=50, unique=True, validators=[
             RegexValidator(
                 regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
@@ -29,12 +30,16 @@ class User(models.Model):
             )
         ])
     email = models.EmailField(max_length=50, unique=True)
+=======
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length= 25)
+    email = models.CharField(max_length=50)
+>>>>>>> e56661bfad9060f07cd43f2132a26b24ca3ece4a
 
     def __str__(self):
-        return f"{self.user_id} : {self.username}"
-
         return f"{self.user_id}:{self.username}"
-
 
 class Aeroplane(models.Model):
     aero_id = models.CharField(max_length=20, primary_key=True)
@@ -70,8 +75,8 @@ class Flight(models.Model):
         return f"{str(self.f_id)}: {self.depart_airport} ==> {self.dest_airport}"
 
 
-
 class Contact(models.Model):
+    #creating an automatic field using a function called build_id
     num = models.AutoField(primary_key=True, auto_created=True)
     mail = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
@@ -90,6 +95,9 @@ class Ticket(models.Model):
     seat_number = models.IntegerField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.ticket_id} : ({self.ticket_class}: {self.price}) => ({self.user_id.first_name} {self.user_id.last_name}, {self.seat_number}, {self.flight_id.depart_airport} to {self.flight_id.dest_airport}) => {self.purchase_date}"
 
     def clean(self)-> None:
         if self.price < 0:
@@ -99,9 +107,6 @@ class Ticket(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
-    
-    def __str__(self):
-        return f"{self.ticket_class} : {self.price} XAF"
 
     
 class Stop(models.Model):
@@ -142,7 +147,7 @@ class Reservation(models.Model):
 
 
 class Price(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(primary_key=True, max_length=50)
     class_type = models.CharField(max_length=30)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
@@ -159,7 +164,6 @@ class Price(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
-
     
 
 class Payment(models.Model):

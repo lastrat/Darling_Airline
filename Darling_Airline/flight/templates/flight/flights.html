@@ -24,10 +24,14 @@
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
               {% if current %}
+<<<<<<< HEAD
                 <a class="navbar-brand" href="/profile"><img class="navbar-brand" src="{% static 'flight/assets/images/dg.png'%}"  height="50px" width="50px" /></a>&nbsp;&nbsp;&nbsp;
                 <a class="navbar-brand" href="/home">Welcome  {{ current }}</a>
+=======
+              <a class="navbar-brand" href="/profile"><img class="navbar-brand" src="{% static 'flight/assets/images/dg.png'%}"  height="50px" width="50px" /></a>
+>>>>>>> e56661bfad9060f07cd43f2132a26b24ca3ece4a
               {% else %}
-              <a class="navbar-brand" href="/home">DG.</a>
+              <a class="navbar-brand" href="/home"><img class="navbar-brand" src="{% static 'flight/assets/images/dg.png'%}"  height="50px" width="50px" /></a>
               {% endif %}
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -54,13 +58,12 @@
     <table class="table">
         <thead>
           <tr class="table-secondary">
-            <th scope="col">#id</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
+            <th scope="col">#</th>
+            <th scope="col">Town.Dep</th>
+            <th scope="col">Destination</th>
             <th scope="col">Depart Time</th>
-            <th scope="col">Duration</th>
             <th scope="col">Stops</th>
-            <th scope="col">Aircraft</th>
+            <th scope="col">N.Plane</th>
             <th scope="col">A.place</th>
             <th>Buy</th>
           </tr>
@@ -75,7 +78,6 @@
             <td>{{ v.depart_airport }}</td>
             <td>{{ v.dest_airport }}</td>
             <td>{{ v.departure_time }}</td>
-            <td>{{ v.duration }} mins</td>
             <form action="/stops/" method="get">
             <td><button type="submit" class="btn btn-primary" name="f_id" value="{{ v.f_id }}">view</button></td>
             </form>
@@ -86,7 +88,7 @@
               <button style="border: none; background: none" type="submit" name="voyid" value="{{ v.f_id }}">
                 <i class="bi bi-bookmark-plus"></i>
               </form>
-            </td>
+              </td>
                 
             </tr>
             {% endfor %}
