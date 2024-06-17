@@ -1,13 +1,34 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length= 25)
-    email = models.EmailField(max_length=50)
+    username = models.CharField(max_length=50, unique=True, validators=[
+            RegexValidator(
+                regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+                message='Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+            )
+        ])
+    password = models.CharField(max_length=255, validators=[
+            RegexValidator(
+                regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+                message='Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+            )
+        ])
+    first_name = models.CharField(max_length=25, validators=[
+            RegexValidator(
+                regex=r'^[A-Za-z]{1,25}$',
+                message='First name must be 1 to 25 characters long and contain only letters.'
+            )
+        ])
+    last_name = models.CharField(max_length= 25, validators=[
+            RegexValidator(
+                regex=r'^[A-Za-z]{1,25}$',
+                message='Last name must be 1 to 25 characters long and contain only letters.'
+            )
+        ])
+    email = models.EmailField(max_length=50, unique=True)
 
     def __str__(self):
         return f"{self.user_id} : {self.username}"
@@ -45,10 +66,6 @@ class Flight(models.Model):
     def save(self,*args, **kwargs)-> None:
         self.clean()
         return super().save(*args,**kwargs)
-
-    
-    def __str__(self):
-        return f"{self.f_id} : {self.depart_airport} To {self.dest_airport}"
     def __str__(self):
         return f"{str(self.f_id)}: {self.depart_airport} ==> {self.dest_airport}"
 
@@ -56,7 +73,7 @@ class Flight(models.Model):
 
 class Contact(models.Model):
     num = models.AutoField(primary_key=True, auto_created=True)
-    mail = models.EmailField()
+    mail = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     msg = models.CharField(max_length=150)
     client = models.ForeignKey("User", on_delete=models.CASCADE)
@@ -105,7 +122,7 @@ class Reservation(models.Model):
     total_price = models.FloatField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     flight_id = models.ForeignKey(Flight, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=0)
+    is_paid = models.BooleanField(default=False)
     
     def __str__(self):
         return f"{int(self.reservationId)} : {self.user_id.first_name} ==> {self.flight_id.depart_airport}"

@@ -1,15 +1,18 @@
 from django.urls import path
+from . import api_views
 
 from . import views
 
 urlpatterns =[
     path('',views.index, name='index'),
-    path('signup/', views.save, name='signUp'),
-    path('login/', views.signin, name='login'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('api/signup/', api_views.signup, name='api_signup'),
+    path('api/login/', api_views.login, name='api_login'),
     path('home/', views.home, name='home'),
     path('stops/', views.stops, name='stops'),
     path('profile/', views.profile, name='profile'),
-    path('account/', views.logout, name='logout'),
+    path('logout/', views.logout_view, name='logout'),
     path('flights/', views.flights, name='flights'),
     path('contact/', views.contact, name='contact'),
     path('reservation/',views.reservation, name='reservation'),

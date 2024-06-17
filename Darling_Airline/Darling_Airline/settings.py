@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'flight',
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
@@ -44,7 +47,7 @@ ROOT_URLCONF = 'Darling_Airline.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +121,48 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / "uploads/"
 MEDIA_URL = '/media/' 
+
+
+JAZZMIN_SETTINGS = {
+    'site_brand': "Darling_Airline Admin",
+    'site_logo': "flight/assets/images/dg.png",
+    'site_logo_classes': "img-circle",
+    'copyright': "Darling_Airline",
+    'welcome_sign': "Welcome to Darling_Airline",
+    'search_model': ["auth.User"],
+    'navigation_expanded': True,
+    'changeform_format': "carousel",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": True,
+    "footer_small_text": True,
+    "body_small_text": False,
+    "brand_small_text": True,
+    "brand_colour": "navbar-navy",
+    "accent": "accent-lightblue",
+    "navbar": "navbar-navy navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": False
+}

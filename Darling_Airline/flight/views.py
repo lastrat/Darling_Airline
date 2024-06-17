@@ -1,65 +1,109 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.db import IntegrityError
+from django.contrib.auth.hashers import check_password
+from django.http import HttpResponse
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.hashers import make_password
+
 
 from django.db.models.functions import Now
 
 from .models import *
 
 def index(request):
+    # Check if there is any session data
+    if request.session.session_key:
+        # Terminate the session
+        auth_logout(request)
     return render(request, 'flight/index.html')
 
 def home(request):
-    return render(request, 'flight/index.html')
-
-def save(request):
     if 'username' in request.session:
-        return redirect('profile')
-    if request.method == 'POST':
-        username = request.POST['username']
-        f_name = request.POST['f_name']
-        l_name = request.POST['l_name']
-        email = request.POST['email']
-        pwd = request.POST['password']
-        user = User(username = username, first_name = f_name, last_name = l_name, email = email, password = pwd )
-        user.save()
-        return redirect('login')
-    return render(request, template_name='flight/signup.html')
-def signin(request):
-    if 'user_id' in request.session:
-        return redirect('profile')
+        current_user = request.session['username']
+    else:
+        current_user = None
+    return render(request, 'flight/home.html', {'current_user': current_user})
+
+def signup(request):
+    if request.user.is_authenticated:
+        return render(request, 'flight/profile.html')
     
     if request.method == 'POST':
-        username = request.POST['username']
-        pwd = request.POST['password']
+         # Ensure CSRF token is checked
+        if not request.POST.get('csrfmiddlewaretoken'):
+            messages.error(request, 'CSRF verification failed. Please try again.')
+            return render(request, 'flight/signup.html')
+        
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        first_name = request.POST.get('f_name')
+        last_name = request.POST.get('l_name')
+        password = request.POST.get('password')
+
+        if username and email and first_name and last_name and password:
+            try:
+                # Check if username or email already exists
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, 'Username already exists.')
+                elif User.objects.filter(email=email).exists():
+                    messages.error(request, 'Email already exists.')
+                else:
+                    # Create a new user instance
+                    hashed_password = make_password(password) # Hash the password before saving the user
+                    user = User(username=username, email=email, first_name=first_name, last_name=last_name, password=hashed_password)
+                    user.save()
+                    messages.success(request, 'Account created successfully! Please log in.')
+                    return redirect('login')  # Redirect to login page after successful signup
+            except IntegrityError as e:
+                messages.error(request, 'An error occurred while creating the account.')
+        else:
+            messages.error(request, 'All fields are required.')
+
+    return render(request, 'flight/signup.html')
+
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
         try:
-            check_user = User.objects.get(username=username, password=pwd)
-            # start a session for the current user
-            request.session['user_id'] = check_user.user_id
-            request.session['email'] = check_user.email
-            request.session['username'] = check_user.username
-            return redirect('profile')
+            # Fetch the user by username
+            user = User.objects.get(username=username)
+            # Check if the password matches
+            if check_password(password, user.password):
+                # Manually create a session
+                request.session['user_id'] = user.user_id
+                request.session['username'] = user.username
+                messages.success(request, f'Welcome {username}!')
+                return redirect('home')
+            else:
+                messages.error(request, 'Wrong Username or Password!')
         except User.DoesNotExist:
-            msg = "Wrong Username or password!"
-            return render(request, 'flight/signin.html', {'msg': msg})
-    
+            messages.error(request, 'Wrong Username or Password!')
+
     return render(request, 'flight/signin.html')
 
 def profile(request):
     if 'username' in request.session:
-        actual_user = request.session['username']
-        param = {'current_user': actual_user}
+        current_user = request.session['username']
+        param = {'current_user': current_user}
         return render(request, 'flight/profile.html', param)
     else:
         return redirect('login')
     
-def logout(request):
-    try:
-        del request.session['username']
-    except:
-        return redirect('login')
+def logout_view(request):
+    # Log out the user and terminate the session
+    auth_logout(request)
+    # Message to confirm logout
+    messages.success(request, "You have been logged out successfully.")
+    # Redirect to the homepage
     return redirect('login')
 
 def stops(request):
@@ -137,12 +181,13 @@ def flights(request):
 
     if 'username' in request.session:
         # if the user is logged in
-        current = request.session['username']
-        return render(request, 'flight/flights.html',{ 'current':current, 'flight': data})
+        current_user = request.session['username']
+        return render(request, 'flight/flights.html',{ 'current':current_user,
+                       'flight': data}) 
     return render(request, 'flight/flights.html',{'flight': data})
 
 def contact(request):
-    if 'user_id' in request.session:
+    if 'username' in request.session:
         user_id = request.session['user_id']
         try:
             current_user = User.objects.get(user_id=user_id)
